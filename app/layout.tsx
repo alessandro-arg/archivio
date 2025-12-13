@@ -11,6 +11,13 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Archivio",
   description: "Archivio - The only storage solution you need.",
+  manifest: "/manifest.json",
+  icons: {
+    icon: [{ url: "/favicon.ico", sizes: "any" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
