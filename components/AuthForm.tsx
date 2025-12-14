@@ -18,11 +18,20 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+const authFormSchema = (formType: FormType) => {
+  return z.object({
+    fullName:
+      formType === "sign-up"
+        ? z
+            .string()
+            .min(2, { message: "Name must be at least 2 characters" })
+            .max(50)
+        : z.string().optional(),
+    email: z.email().min(2, {
+      message: "Email must be valid",
+    }),
+  });
+};
 
 type FormType = "sign-in" | "sign-up";
 
@@ -30,10 +39,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      fullName: "",
+      email: "",
     },
   });
 
