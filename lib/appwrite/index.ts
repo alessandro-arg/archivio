@@ -1,4 +1,6 @@
-import { Account, Avatars, Client, Databases, Storage } from "node-appwrite";
+import "server-only";
+
+import { Account, Avatars, Client, Storage, TablesDB } from "node-appwrite";
 import { appwriteConfig } from "./config";
 import { cookies } from "next/headers";
 
@@ -10,7 +12,7 @@ export const createSessionClient = async () => {
   const session = (await cookies()).get("appwrite-session");
 
   if (!session || !session.value) {
-    throw new Error("No session");
+    throw new Error("Unauthorized session");
   }
 
   client.setSession(session.value);
@@ -19,8 +21,8 @@ export const createSessionClient = async () => {
     get account() {
       return new Account(client);
     },
-    get databases() {
-      return new Databases(client);
+    get tables() {
+      return new TablesDB(client);
     },
   };
 };
@@ -35,8 +37,8 @@ export const createAdminClient = async () => {
     get account() {
       return new Account(client);
     },
-    get databases() {
-      return new Databases(client);
+    get tables() {
+      return new TablesDB(client);
     },
     get storage() {
       return new Storage(client);
