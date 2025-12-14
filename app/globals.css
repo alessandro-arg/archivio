@@ -223,17 +223,17 @@
   }
 
   .shad-input {
-    @apply border-none shadow-none p-0 body-2 shad-no-focus
-           placeholder:text-light-200;
+    @apply border-none shadow-none! body-2 shad-no-focus
+           placeholder:text-light-200 outline-none! p-0!;
   }
 
   .shad-form-item {
     @apply flex h-19.5 flex-col justify-center rounded-xl
-           border border-light-300 px-4 shadow-drop-1;
+           border border-light-300 dark:border-dark-200 px-4 shadow-drop-1 dark:shadow-none;
   }
 
   .shad-form-label {
-    @apply body-2 pt-2 text-light-100 w-full;
+    @apply body-2 pt-2 text-light-100 dark:text-light-300 w-full;
   }
 
   .shad-form-message {
@@ -275,11 +275,11 @@
   }
 
   .form-title {
-    @apply h1 text-center text-light-100 md:text-left;
+    @apply h1 text-center text-primary md:text-left;
   }
 
   .form-submit-button {
-    @apply primary-btn h-16.5;
+    @apply bg-brand hover:bg-brand-100 transition-all rounded-full button h-16.5;
   }
 
   .error-message {
@@ -336,4 +336,15 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  -webkit-text-fill-color: inherit;
+  transition: background-color 9999s ease-in-out 0s;
 }

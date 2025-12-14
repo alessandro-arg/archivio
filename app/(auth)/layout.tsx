@@ -5,39 +5,61 @@ import React from "react";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen">
-      <section className="bg-brand dark:bg-foreground p-10">
-        <ThemeToggle />
-        <div>
-          <Image
-            src="/assets/icons/logo-full.svg"
-            alt="logo"
-            width={224}
-            height={82}
-            className="h-auto dark:hidden"
-          />
-          <Image
-            src="/assets/icons/logo-full-brand.svg"
-            alt="logo"
-            width={224}
-            height={82}
-            className="h-auto hidden dark:block"
-          />
+      <section className="bg-brand dark:bg-foreground p-10 hidden w-1/2 items-center justify-center lg:flex xl:w-2/5">
+        <div className="flex max-h-200 max-w-107.5 flex-col justify-center space-y-12">
+          <div className="flex justify-between items-center">
+            <Image
+              src="/assets/icons/logo-full.svg"
+              alt="logo"
+              width={224}
+              height={82}
+              className="h-auto dark:hidden"
+            />
+            <Image
+              src="/assets/icons/logo-full-brand.svg"
+              alt="logo"
+              width={224}
+              height={82}
+              className="h-auto hidden dark:block"
+            />
+            <ThemeToggle />
+          </div>
           <div className="space-y-5 text-white">
             <h1 className="h1">Manage your files the best way</h1>
             <p className="body-1">
-              This is a place where you can store all your documents.
+              Awesome, we've created the perfect place for you to store all your
+              documents.
             </p>
           </div>
           <Image
-            src="/assets/images/files.png"
+            src="/assets/images/files.svg"
             alt="files"
+            loading="eager"
             width={342}
             height={342}
             className="transition-all duration-600 hover:rotate-2 hover:scale-105"
           />
         </div>
       </section>
-      {children}
+      <section className="flex flex-1 flex-col items-center bg-background p-4 py-10 lg:justify-center lg:p-10 lg:py-0">
+        <div className="mb-16 lg:hidden">
+          <Image
+            src="/assets/icons/logo-full.svg"
+            alt="logo"
+            width={224}
+            height={82}
+            className="h-auto dark:hidden w-50 lg:w-62.5"
+          />
+          <Image
+            src="/assets/icons/logo-full-brand.svg"
+            alt="logo"
+            width={224}
+            height={82}
+            className="h-auto hidden dark:block w-50 lg:w-62.5"
+          />
+        </div>
+        {children}
+      </section>
     </div>
   );
 };
