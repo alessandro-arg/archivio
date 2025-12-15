@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -6,7 +8,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 import {
@@ -16,6 +17,8 @@ import {
 } from "@/components/ui/input-otp";
 import { useState } from "react";
 import Image from "next/image";
+import { sendEmailOTP, verifySecret } from "@/lib/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 const OTPModal = ({
   accountId,
@@ -24,6 +27,7 @@ const OTPModal = ({
   accountId: string;
   email: string;
 }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +37,14 @@ const OTPModal = ({
     setIsLoading(true);
 
     try {
+      const sessionId = await verifySecret({
+        accountId,
+        password,
+      });
+
+      if (sessionId) {
+        router.push("/");
+      }
     } catch (error) {
       console.log("Failed to verify OTP", error);
     }
@@ -40,13 +52,12 @@ const OTPModal = ({
     setIsLoading(false);
   };
 
-  const handleResendOTP = async () => {};
+  const handleResendOTP = async () => {
+    await sendEmailOTP({ email });
+  };
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Show Dialog</Button>
-      </AlertDialogTrigger>
       <AlertDialogContent className="space-y-4 max-w-[95%] sm:w-fit rounded-xl md:rounded-[30px] px-4 md:px-8 py-10 outline-none">
         <AlertDialogHeader className="relative flex justify-center">
           <AlertDialogTitle className="h2! text-center">
