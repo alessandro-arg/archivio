@@ -2,6 +2,8 @@ import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
+import Search from "./Search";
+import FileUploader from "./FileUploader";
 
 const Header = () => {
   return (
@@ -9,9 +11,9 @@ const Header = () => {
       className="hidden sm:flex items-center justify-between
            gap-5 p-5 lg:py-7 xl:gap-10"
     >
-      Search
+      <Search />
       <div className="flex-center min-w-fit gap-4">
-        File uploader
+        <FileUploader />
         <ThemeToggle />
         <form>
           <Button type="submit" variant="outline" size="icon">
