@@ -18,6 +18,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from "@/lib/actions/user.actions";
+import OTPModal from "./OTPModal";
 
 const authFormSchema = (formType: FormType) => {
   return z.object({
@@ -115,7 +116,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" variant="primary" disabled={isLoading}>
             {type === "sign-in" ? "Sign in" : "Sign up"}
             {isLoading && (
               <Image
@@ -146,6 +147,9 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       </Form>
       {/* OTP Verification */}
+      {true && (
+        <OTPModal email={form.getValues("email")} accountId={accountId} />
+      )}
     </>
   );
 };

@@ -240,10 +240,6 @@
     @apply body-2 ml-4 text-red;
   }
 
-  .shad-submit-btn {
-    @apply bg-brand hover:bg-brand-100 transition-all rounded-full button;
-  }
-
   /* Dashboard */
   .dashboard-container {
     @apply mx-auto grid max-w-7xl grid-cols-1 gap-6
