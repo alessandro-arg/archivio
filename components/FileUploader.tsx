@@ -4,8 +4,12 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "./ui/button";
 import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
+import { toast } from "sonner";
 import Image from "next/image";
 import Thumbnail from "./Thumbnail";
+import { MAX_FILE_SIZE } from "./constants";
+import { uploadFile } from "@/lib/actions/file.actions";
+import { usePathname } from "next/navigation";
 
 interface Props {
   ownerId: string;
@@ -14,12 +18,47 @@ interface Props {
 }
 
 const FileUploader = ({ ownerId, accountId, className }: Props) => {
+  const path = usePathname();
   const [files, setFiles] = useState<File[]>([]);
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles);
+      const uploadPromises = acceptedFiles.map(async (file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          setFiles((prevFiles) =>
+            prevFiles.filter((f) => f.name !== file.name)
+          );
+
+          return toast.warning("", {
+            description: (
+              <p className="body-2 text-primary">
+                <span className="font-semibold">{file.name}</span> is too large.{" "}
+                <br />
+                Max file size is 50Mb.
+              </p>
+            ),
+            closeButton: true,
+          });
+        }
+
+        const uploadedFile = await uploadFile({
+          file,
+          ownerId,
+          accountId,
+          path,
+        });
+        if (uploadedFile) {
+          setFiles((prev) => prev.filter((f) => f.name !== file.name));
+        }
+      });
+
+      await Promise.all(uploadPromises);
+    },
+    [ownerId, accountId, path]
+  );
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const handleRemoveFile = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
@@ -36,7 +75,7 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
         type="button"
         variant="primary"
         className={cn(
-          "h-13 gap-2 px-10 shadow-drop-1 cursor-pointer",
+          "h-10! rounded-md gap-2 px-10 shadow-drop-1 cursor-pointer hover:bg-brand/90",
           className
         )}
       >
@@ -92,11 +131,6 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
             );
           })}
         </ul>
-      )}
-      {isDragActive ? (
-        <p>Drop the files here ...</p>
-      ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
       )}
     </div>
   );

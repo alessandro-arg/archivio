@@ -19,23 +19,27 @@ declare interface UploadFileProps {
   accountId: string;
   path: string;
 }
+
 declare interface GetFilesProps {
   types: FileType[];
   searchText?: string;
   sort?: string;
   limit?: number;
 }
+
 declare interface RenameFileProps {
   fileId: string;
   name: string;
   extension: string;
   path: string;
 }
+
 declare interface UpdateFileUsersProps {
   fileId: string;
   emails: string[];
   path: string;
 }
+
 declare interface DeleteFileProps {
   fileId: string;
   bucketFileId: string;
@@ -55,6 +59,7 @@ declare interface MobileNavigationProps {
   avatar: string;
   email: string;
 }
+
 declare interface SidebarProps {
   fullName: string;
   avatar: string;

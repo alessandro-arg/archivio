@@ -25,21 +25,13 @@ import { cn } from "@/lib/utils";
 import FileUploader from "./FileUploader";
 import { signOut } from "@/lib/actions/user.actions";
 
-interface Props {
-  ownerId: string;
-  accountId: string;
-  fullName: string;
-  avatar: string;
-  email: string;
-}
-
 const MobileNavigation = ({
   ownerId,
   accountId,
   fullName,
   avatar,
   email,
-}: Props) => {
+}: MobileNavigationProps) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -107,8 +99,8 @@ const MobileNavigation = ({
               </ul>
             </nav>
             <Separator className="mb-4 bg-light-200/30 dark:bg-secondary" />
-            <div className="flex flex-1 flex-col justify-between gap-5 pb-5">
-              <FileUploader />
+            <div className="flex flex-1 gap-5 justify-end px-4">
+              <FileUploader ownerId={ownerId} accountId={accountId} />
             </div>
             <SheetFooter>
               <form action={signOut} className="flex items-center justify-end">

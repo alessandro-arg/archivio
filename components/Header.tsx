@@ -5,7 +5,13 @@ import Search from "./Search";
 import FileUploader from "./FileUploader";
 import { signOut } from "@/lib/actions/user.actions";
 
-const Header = () => {
+const Header = ({
+  userId,
+  accountId,
+}: {
+  userId: string;
+  accountId: string;
+}) => {
   return (
     <header
       className="hidden sm:flex items-center justify-between
@@ -13,7 +19,7 @@ const Header = () => {
     >
       <Search />
       <div className="flex-center min-w-fit gap-4">
-        <FileUploader />
+        <FileUploader ownerId={userId} accountId={accountId} />
         <ThemeToggle />
         <form action={signOut}>
           <Button type="submit" variant="outline" size="icon">

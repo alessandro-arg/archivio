@@ -1,21 +1,13 @@
 import { cn, getFileIcon } from "@/lib/utils";
 import Image from "next/image";
 
-interface Props {
-  type: string;
-  extension: string;
-  url?: string;
-  imageClassName?: string;
-  className?: string;
-}
-
 const Thumbnail = ({
   type,
   extension,
   url = "string",
   imageClassName,
   className,
-}: Props) => {
+}: ThumbnailProps) => {
   const isImage = type === "image" && extension !== "svg";
 
   return (
