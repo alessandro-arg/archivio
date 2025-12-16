@@ -55,7 +55,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
             <Link href={url} key={name} className="lg:w-full">
               <li
                 className={cn(
-                  "flex text-light-100 dark:text-primary gap-4 rounded-xl lg:w-full justify-center lg:justify-start items-center h5 lg:px-7.5 h-13 lg:rounded-full",
+                  "flex text-light-100 dark:text-primary gap-4 rounded-xl lg:w-full justify-center lg:justify-start items-center h5 lg:px-7.5 h-13",
                   pathname === url && "bg-brand text-white shadow-drop-2"
                 )}
               >
@@ -84,7 +84,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
         className="w-full"
       />
 
-      <div className="mt-4 flex items-center justify-center gap-2 rounded-full bg-brand/10 p-1 text-light-100 dark:test-primary lg:justify-start lg:p-3">
+      <div className="mt-4 flex items-center justify-center gap-2 rounded-3xl bg-brand/10 p-1 text-light-100 dark:test-primary lg:justify-start lg:p-3">
         <Image
           src={avatar}
           alt="avatar"
@@ -94,7 +94,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
         />
         <div className="hidden lg:block">
           <p className="subtitle-2 capitalize dark:text-primary">{fullName}</p>
-          <p className="caption dark:text-primary/80">{email}</p>
+          <p className="caption">{email}</p>
         </div>
       </div>
     </aside>

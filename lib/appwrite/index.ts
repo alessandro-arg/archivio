@@ -3,6 +3,7 @@ import "server-only";
 import { Account, Avatars, Client, Storage, TablesDB } from "node-appwrite";
 import { appwriteConfig } from "./config";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const createSessionClient = async () => {
   const client = new Client()
@@ -12,7 +13,7 @@ export const createSessionClient = async () => {
   const session = (await cookies()).get("appwrite-session");
 
   if (!session || !session.value) {
-    throw new Error("Unauthorized session");
+    redirect("/sign-in");
   }
 
   client.setSession(session.value);

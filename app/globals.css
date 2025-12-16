@@ -183,7 +183,7 @@
 }
 
 @utility caption {
-  @apply text-[12px] leading-4 font-normal;
+  @apply text-[12px] leading-4 font-normal dark:text-primary/80;
 }
 @utility overline {
   @apply text-[10px] leading-3.5 font-normal;

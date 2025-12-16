@@ -116,7 +116,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
               </FormItem>
             )}
           />
-          <Button type="submit" variant="primary" disabled={isLoading}>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isLoading}
+            className="rounded-2xl"
+          >
             {type === "sign-in" ? "Sign in" : "Sign up"}
             {isLoading && (
               <Image
