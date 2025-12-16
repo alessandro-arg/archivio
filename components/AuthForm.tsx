@@ -14,11 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { createAccount } from "@/lib/actions/user.actions";
+import { createAccount, signIn } from "@/lib/actions/user.actions";
 import OTPModal from "./OTPModal";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const authFormSchema = (formType: FormType) => {
   return z.object({
@@ -38,9 +39,13 @@ const authFormSchema = (formType: FormType) => {
 type FormType = "sign-in" | "sign-up";
 
 const AuthForm = ({ type }: { type: FormType }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [accountId, setAccountId] = useState(null);
+  const [cameFromSignIn, setCameFromSignIn] = useState(false);
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,18 +61,41 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setErrorMessage("");
 
     try {
-      const user = await createAccount({
-        fullName: data.fullName || "",
-        email: data.email,
-      });
+      const res =
+        type === "sign-up"
+          ? await createAccount({
+              fullName: data.fullName || "",
+              email: data.email,
+            })
+          : await signIn({ email: data.email });
 
-      setAccountId(user.accountId);
+      if (
+        type === "sign-in" &&
+        (!res?.accountId || res?.error === "User not found")
+      ) {
+        router.push(`/sign-up?email=${encodeURIComponent(data.email)}`);
+        return;
+      }
+
+      setAccountId(res.accountId);
     } catch {
-      setErrorMessage("Failed to create an account. Please try again.");
+      setErrorMessage("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (type !== "sign-up") return;
+
+    const emailFromQuery = searchParams.get("email");
+    if (!emailFromQuery) return;
+
+    form.setValue("email", emailFromQuery, { shouldValidate: true });
+    setCameFromSignIn(true);
+
+    window.history.replaceState({}, "", "/sign-up");
+  }, [type, searchParams, form]);
 
   return (
     <>
@@ -76,6 +104,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
           <h1 className="form-title">
             {type === "sign-in" ? "Sign in" : "Sign up"}
           </h1>
+          {cameFromSignIn && !form.formState.errors.fullName && (
+            <p className="text-sm text-brand dark:text-brand/90 -mt-4">
+              Please add your full name to create an account.
+            </p>
+          )}
           {type === "sign-up" && (
             <FormField
               control={form.control}
