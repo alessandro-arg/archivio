@@ -113,7 +113,7 @@ const OTPModal = ({
               className="bg-brand hover:bg-brand/80 transition-all rounded-full h-12 text-white cursor-pointer"
               type="button"
             >
-              Submit
+              {!isLoading && "Submit"}
               {isLoading && (
                 <Image
                   src="/assets/icons/loader.svg"

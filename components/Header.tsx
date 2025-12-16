@@ -1,9 +1,9 @@
-import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { ThemeToggle } from "./theme-toggle";
 import Search from "./Search";
 import FileUploader from "./FileUploader";
+import { signOut } from "@/lib/actions/user.actions";
 
 const Header = () => {
   return (
@@ -15,7 +15,7 @@ const Header = () => {
       <div className="flex-center min-w-fit gap-4">
         <FileUploader />
         <ThemeToggle />
-        <form>
+        <form action={signOut}>
           <Button type="submit" variant="outline" size="icon">
             <Image
               src="/assets/icons/logout.svg"

@@ -23,6 +23,7 @@ import { navItems } from "./constants";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import FileUploader from "./FileUploader";
+import { signOut } from "@/lib/actions/user.actions";
 
 interface Props {
   ownerId: string;
@@ -59,7 +60,10 @@ const MobileNavigation = ({
               <MenuIcon width={30} height={30} />
             </Button>
           </SheetTrigger>
-          <SheetContent className="pt-0 h-screen px-3">
+          <SheetContent
+            className="pt-0 h-screen px-3"
+            aria-describedby={undefined}
+          >
             <SheetTitle>
               <div className="my-3 flex items-center gap-2 p-1 text-light-100 dark:text-primary justify-start lg">
                 <Image
@@ -107,20 +111,22 @@ const MobileNavigation = ({
               <FileUploader />
             </div>
             <SheetFooter>
-              <Button
-                type="submit"
-                variant="outline"
-                className="hover:bg-red/5 dark:hover:bg-red/10"
-              >
-                <Image
-                  src="/assets/icons/logout.svg"
-                  alt="logout"
-                  width={24}
-                  height={24}
-                  className="w-6"
-                />
-                Logout
-              </Button>
+              <form action={signOut} className="flex items-center justify-end">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="hover:bg-red/5 dark:hover:bg-red/10"
+                >
+                  <Image
+                    src="/assets/icons/logout.svg"
+                    alt="logout"
+                    width={24}
+                    height={24}
+                    className="w-6"
+                  />
+                  Logout
+                </Button>
+              </form>
             </SheetFooter>
           </SheetContent>
         </Sheet>

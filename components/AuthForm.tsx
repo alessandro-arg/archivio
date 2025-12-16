@@ -122,7 +122,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
             disabled={isLoading}
             className="rounded-2xl"
           >
-            {type === "sign-in" ? "Sign in" : "Sign up"}
+            {!isLoading && (type === "sign-in" ? "Sign in" : "Sign up")}
             {isLoading && (
               <Image
                 src="/assets/icons/loader.svg"
