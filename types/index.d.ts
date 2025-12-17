@@ -75,7 +75,7 @@ declare interface ThumbnailProps {
 }
 
 declare interface ShareInputProps {
-  file: Models.Document;
+  file: Models.Row;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: (email: string) => void;
 }
