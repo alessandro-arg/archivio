@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 
+import { FileRow } from "./appwrite";
+
 declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
 declare interface ActionType {
@@ -75,7 +77,7 @@ declare interface ThumbnailProps {
 }
 
 declare interface ShareInputProps {
-  file: Models.Row;
+  file: FileRow;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: (email: string) => void;
 }
