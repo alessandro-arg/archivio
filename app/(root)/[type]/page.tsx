@@ -13,12 +13,12 @@ const Page = async ({ params }: SearchParamProps) => {
       <section className="w-full">
         <h1 className="h1 capitalize">{type}</h1>
         <div className="flex mt-2 flex-col justify-between sm:flex-row sm:items-center">
-          <p className="body-1 text-light-200 dark:text-primary/90">
+          <p className="body-1 text-light-200 dark:text-primary/60">
             Total:{" "}
             <span className="h5 text-primary">0 Mb {/* {totalSize} */}</span>
           </p>
           <div className="mt-5 flex items-center sm:mt-0 sm:gap-3">
-            <p className="body-1 hidden sm:block text-light-200 dark:text-primary/90">
+            <p className="body-1 hidden sm:block text-light-200 dark:text-primary/60">
               Sort by:
             </p>
 
@@ -34,7 +34,7 @@ const Page = async ({ params }: SearchParamProps) => {
           ))}
         </section>
       ) : (
-        <p className="body-1 mt-10 text-center text-light-200 dark:text-primary/90">
+        <p className="body-1 mt-10 text-center text-light-200 dark:text-primary/60">
           No files uploaded
         </p>
       )}

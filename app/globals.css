@@ -229,7 +229,7 @@
 
   .shad-form-item {
     @apply flex h-19.5 flex-col justify-center rounded-xl
-           border border-light-300 dark:border-dark-200 px-4 shadow-drop-1 dark:shadow-none;
+           border border-light-300 dark:border-dark-200 px-4 shadow-drop-1 dark:bg-foreground;
   }
 
   .shad-form-label {
