@@ -3,6 +3,7 @@ import type { FileRow } from "@/types/appwrite";
 import Thumbnail from "./Thumbnail";
 import { convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
+import ActionDropdown from "./ActionDropdown";
 
 const Card = ({ file }: { file: FileRow }) => {
   const ownerName =
@@ -25,7 +26,7 @@ const Card = ({ file }: { file: FileRow }) => {
           imageClassName="size-20"
         />
         <div className="flex flex-col items-end justify-between">
-          ...
+          <ActionDropdown file={file} />
           <p className="body-1">{convertFileSize(file.size)}</p>
         </div>
       </div>

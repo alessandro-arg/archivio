@@ -24,6 +24,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import FileUploader from "./FileUploader";
 import { signOut } from "@/lib/actions/user.actions";
+import { MobileNavigationProps } from "@/types";
 
 const MobileNavigation = ({
   ownerId,
