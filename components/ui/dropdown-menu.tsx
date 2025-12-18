@@ -26,6 +26,7 @@ function DropdownMenuTrigger({
   return (
     <DropdownMenuPrimitive.Trigger
       data-slot="dropdown-menu-trigger"
+      className="outline-none! ring-offset-transparent! focus:ring-transparent! focus:ring-offset-0! focus-visible:outline-none! focus-visible:ring-0! focus-visible:ring-transparent! focus-visible:ring-offset-0! focus:border-input"
       {...props}
     />
   );

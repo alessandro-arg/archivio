@@ -5,6 +5,7 @@ import Link from "next/link";
 import { navItems } from "./constants";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { SidebarProps } from "@/types";
 
 const Sidebar = ({ fullName, avatar, email }: SidebarProps) => {
   const pathname = usePathname();

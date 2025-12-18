@@ -16,7 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { EllipsisVertical } from "lucide-react";
@@ -26,22 +26,59 @@ import { ActionType } from "@/types";
 import Link from "next/link";
 import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "./ui/input";
+import { renameFile } from "@/lib/actions/file.actions";
+import { usePathname } from "next/navigation";
 
 const ActionDropdown = ({ file }: { file: FileRow }) => {
+  const getBaseName = (fullName: string) => fullName.replace(/\.[^/.]+$/, "");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
-  const [fileName, setFileName] = useState(file.name);
+  const [fileName, setFileName] = useState(getBaseName(file.name));
+  const [currentFullName, setCurrentFullName] = useState(file.name);
   const [isLoading, setIsLoading] = useState(false);
+
+  const path = usePathname();
+
+  useEffect(() => {
+    setFileName(getBaseName(file.name));
+    setCurrentFullName(file.name);
+  }, [file.name]);
 
   const closeAllModals = () => {
     setIsModalOpen(false);
     setIsDropdownOpen(false);
     setAction(null);
-    setFileName(file.name);
+    setFileName(getBaseName(file.name));
   };
 
-  const handleAction = async () => {};
+  const handleAction = async () => {
+    if (!action) return;
+    setIsLoading(true);
+
+    const actions = {
+      rename: () =>
+        renameFile({
+          fileId: file.$id,
+          name: fileName,
+          extension: file.extension,
+          path,
+        }),
+      share: async () => true,
+      delete: async () => true,
+    };
+
+    const result = await actions[action.value as keyof typeof actions]();
+
+    if (action.value === "rename" && result?.name) {
+      setCurrentFullName(result.name);
+    }
+
+    if (result) closeAllModals();
+
+    setIsLoading(false);
+  };
 
   const renderDialogContent = () => {
     if (!action) return null;
@@ -99,17 +136,14 @@ const ActionDropdown = ({ file }: { file: FileRow }) => {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
-        <DropdownMenuTrigger
-          className="outline-none! ring-offset-transparent! focus:ring-transparent! focus:ring-offset-0! focus-visible:outline-none! focus-visible:ring-0! focus-visible:ring-transparent! focus-visible:ring-offset-0!"
-          asChild
-        >
+        <DropdownMenuTrigger asChild>
           <Button type="button" variant="outline" size="icon">
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="max-w-50 truncate cursor-default">
-            {file.name}
+            {currentFullName}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           {actionsDropdownItems.map((actionItem) => (
@@ -118,6 +152,10 @@ const ActionDropdown = ({ file }: { file: FileRow }) => {
               className="cursor-pointer"
               onClick={() => {
                 setAction(actionItem);
+
+                if (actionItem.value === "rename") {
+                  setFileName(getBaseName(file.name));
+                }
 
                 if (
                   ["rename", "share", "delete", "details"].includes(
@@ -131,7 +169,7 @@ const ActionDropdown = ({ file }: { file: FileRow }) => {
               {actionItem.value === "download" ? (
                 <Link
                   href={constructDownloadUrl(file.bucketFileId)}
-                  download={file.name}
+                  download={currentFullName}
                   className="flex items-center gap-2"
                 >
                   <Image
