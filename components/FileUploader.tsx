@@ -7,7 +7,7 @@ import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import { toast } from "sonner";
 import Image from "next/image";
 import Thumbnail from "./Thumbnail";
-import { MAX_FILE_SIZE } from "./constants";
+import { MAX_FILE_SIZE } from "../constants";
 import { uploadFile } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
 

@@ -21,13 +21,14 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { EllipsisVertical } from "lucide-react";
 import { FileRow } from "@/types/appwrite";
-import { actionsDropdownItems } from "./constants";
+import { actionsDropdownItems } from "../constants";
 import { ActionType } from "@/types";
 import Link from "next/link";
 import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { renameFile } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
+import { FileDetails } from "./ActionsModalContent";
 
 const ActionDropdown = ({ file }: { file: FileRow }) => {
   const getBaseName = (fullName: string) => fullName.replace(/\.[^/.]+$/, "");
@@ -101,6 +102,7 @@ const ActionDropdown = ({ file }: { file: FileRow }) => {
               onChange={(e) => setFileName(e.target.value)}
             />
           )}
+          {value === "details" && <FileDetails file={file} />}
         </DialogHeader>
         {["rename", "delete", "share"].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">

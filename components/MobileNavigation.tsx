@@ -19,7 +19,7 @@ import { useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { MenuIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
-import { navItems } from "./constants";
+import { navItems } from "../constants";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import FileUploader from "./FileUploader";

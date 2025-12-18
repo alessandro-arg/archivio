@@ -5,7 +5,7 @@ import { appwriteConfig } from "../appwrite/config";
 import { ID, Query } from "node-appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
-import { avatarPlaceholderUrl } from "@/components/constants";
+import { avatarPlaceholderUrl } from "@/constants";
 import { redirect } from "next/navigation";
 
 const getUserByEmail = async (email: string) => {
