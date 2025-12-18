@@ -23,7 +23,7 @@ const Card = ({ file }: { file: FileRow }) => {
           extension={file.extension}
           url={file.url!}
           className="size-20"
-          imageClassName="size-20"
+          imageClassName="size-12"
         />
         <div className="flex flex-col items-end justify-between">
           <ActionDropdown file={file} />
