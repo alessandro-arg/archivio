@@ -7,7 +7,11 @@ import { ID, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
-import { UploadFileProps, RenameFileProps } from "@/types";
+import {
+  UploadFileProps,
+  RenameFileProps,
+  UpdateFileUsersProps,
+} from "@/types";
 import { UserRow } from "@/types/appwrite";
 
 const handleError = (error: unknown, message: string) => {
@@ -122,5 +126,29 @@ export const renameFile = async ({
     return parseStringify(updatedFile);
   } catch (error) {
     handleError(error, "Failed to rename file");
+  }
+};
+
+export const updateFileUsers = async ({
+  fileId,
+  emails,
+  path,
+}: UpdateFileUsersProps) => {
+  const { tables } = await createAdminClient();
+
+  try {
+    const updatedFile = await tables.updateRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesId,
+      rowId: fileId,
+      data: {
+        users: emails,
+      },
+    });
+
+    revalidatePath(path);
+    return parseStringify(updatedFile);
+  } catch (error) {
+    handleError(error, "Failed to update file users");
   }
 };

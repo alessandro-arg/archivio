@@ -2,9 +2,13 @@ import { FileRow } from "@/types/appwrite";
 import Thumbnail from "./Thumbnail";
 import FormattedDateTime from "./FormattedDateTime";
 import { convertFileSize, formatDateTime } from "@/lib/utils";
+import { ShareInputProps } from "@/types";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import Image from "next/image";
 
 const ImageThumbnail = ({ file }: { file: FileRow }) => (
-  <div className="mb-1 flex items-center gap-3 rounded-xl border border-light-200/40 bg-light-400/50 p-3">
+  <div className="mb-1 flex items-center gap-3 rounded-xl border border-light-200/40 bg-light-400/50 dark:bg-foreground/50 dark:border-foreground p-3">
     <Thumbnail type={file.type} extension={file.extension} url={file.url} />
     <div className="flex flex-col">
       <p className="subtitle-2 mb-1">{file.name}</p>
@@ -34,6 +38,63 @@ export const FileDetails = ({ file }: { file: FileRow }) => {
         <DetailRow label="Size:" value={convertFileSize(file.size)} />
         <DetailRow label="Owner:" value={ownerName} />
         <DetailRow label="Last edit:" value={formatDateTime(file.$updatedAt)} />
+      </div>
+    </>
+  );
+};
+
+export const ShareInput = ({
+  file,
+  onInputChange,
+  onRemove,
+}: ShareInputProps) => {
+  return (
+    <>
+      <ImageThumbnail file={file} />
+      <div className="mt-2 space-y-2">
+        <p className="subtitle-2 pl-1 text-light-100 dark:text-primary">
+          Share file with other users
+        </p>
+        <Input
+          type="email"
+          placeholder="Enter email address"
+          onChange={(e) => onInputChange(e.target.value.trim().split(","))}
+          className="body-2 shad-no-focus h-13 w-full rounded-xl border px-4 shadow-drop-1 dark:shadow-none"
+        />
+        <div className="pt-4">
+          <div className="flex justify-between">
+            <p className="subtitle-2 text-light-100 dark:text-primary/90">
+              Shared with
+            </p>
+            <p className="subtitle-2 text-light-200 dark:text-primary/70">
+              {file.users?.length} users
+            </p>
+          </div>
+
+          <ul className="pt-2">
+            {file.users?.map((email: string) => (
+              <li
+                key={email}
+                className="flex items-center justify-between gap-2"
+              >
+                <p className="subtitle-2">{email}</p>
+                <Button
+                  size="icon"
+                  onClick={() => onRemove(email)}
+                  className="bg-transparent hover:bg-transparent cursor-pointer"
+                >
+                  <Image
+                    src="/assets/icons/remove.svg"
+                    alt="remove"
+                    width={24}
+                    height={24}
+                    className="aspect-square rounded-full hover:invert-50 dark:invert dark:hover:invert-50 transition-all"
+                  />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );
