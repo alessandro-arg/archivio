@@ -11,6 +11,7 @@ import {
   UploadFileProps,
   RenameFileProps,
   UpdateFileUsersProps,
+  DeleteFileProps,
 } from "@/types";
 import { UserRow } from "@/types/appwrite";
 
@@ -148,6 +149,34 @@ export const updateFileUsers = async ({
 
     revalidatePath(path);
     return parseStringify(updatedFile);
+  } catch (error) {
+    handleError(error, "Failed to update file users");
+  }
+};
+
+export const deleteFile = async ({
+  fileId,
+  bucketFileId,
+  path,
+}: DeleteFileProps) => {
+  const { tables, storage } = await createAdminClient();
+
+  try {
+    const deletedFile = await tables.deleteRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesId,
+      rowId: fileId,
+    });
+
+    if (deletedFile) {
+      await storage.deleteFile({
+        bucketId: appwriteConfig.bucketId,
+        fileId: bucketFileId,
+      });
+    }
+
+    revalidatePath(path);
+    return parseStringify({ status: "success" });
   } catch (error) {
     handleError(error, "Failed to update file users");
   }
