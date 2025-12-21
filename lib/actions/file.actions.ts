@@ -90,11 +90,13 @@ const createQueries = (
   if (searchText) queries.push(Query.contains("name", searchText));
   if (limit) queries.push(Query.limit(limit));
 
-  const [sortBy, orderBy] = sort.split("-");
+  if (sort) {
+    const [sortBy, orderBy] = sort.split("-");
 
-  queries.push(
-    orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)
-  );
+    queries.push(
+      orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)
+    );
+  }
 
   return queries;
 };
