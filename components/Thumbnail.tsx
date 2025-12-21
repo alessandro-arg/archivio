@@ -1,4 +1,5 @@
 import { cn, getFileIcon } from "@/lib/utils";
+import { ThumbnailProps } from "@/types";
 import Image from "next/image";
 
 const Thumbnail = ({
