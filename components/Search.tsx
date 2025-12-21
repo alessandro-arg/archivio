@@ -8,33 +8,39 @@ import { getFiles } from "@/lib/actions/file.actions";
 import { FileRow } from "@/types/appwrite";
 import Thumbnail from "./Thumbnail";
 import FormattedDateTime from "./FormattedDateTime";
+import { useDebounce } from "use-debounce";
 
 const Search = () => {
   const [query, setQuery] = useState("");
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("query") || "";
   const [results, setResults] = useState<FileRow[]>([]);
   const [open, setOpen] = useState(false);
+
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("query") || "";
+
   const router = useRouter();
   const path = usePathname();
 
+  const [debouncedQuery] = useDebounce(query, 300);
+
   useEffect(() => {
     const fetchFiles = async () => {
-      if (!query) {
+      if (debouncedQuery.length === 0) {
         setResults([]);
         setOpen(false);
         return router.push(path.replace(searchParams.toString(), ""));
       }
 
       const files = await getFiles({
-        searchText: query,
+        types: [],
+        searchText: debouncedQuery,
       });
       setResults(files.rows);
       setOpen(true);
     };
 
     fetchFiles();
-  }, [query]);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     if (!searchQuery) {

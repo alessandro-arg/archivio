@@ -75,6 +75,7 @@ const Sidebar = ({ fullName, avatar, email }: SidebarProps) => {
         alt="files-image"
         width={506}
         height={418}
+        loading="eager"
         className="w-full"
       />
 
