@@ -14,7 +14,7 @@ const Thumbnail = ({
   return (
     <figure
       className={cn(
-        "flex-center size-12.5 min-w-12.5 overflow-hidden rounded-full bg-brand/10",
+        "flex-center size-12.5 min-w-12.5 overflow-hidden rounded-full bg-brand/10 dark:bg-[#1D2039]",
         className
       )}
     >

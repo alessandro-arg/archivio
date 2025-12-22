@@ -59,7 +59,7 @@ const Search = () => {
 
   return (
     <div className="relative w-full md:max-w-120">
-      <div className="flex h-13 flex-1 items-center gap-3 rounded-full px-4 shadow-drop-3">
+      <div className="flex h-13 flex-1 items-center gap-3 rounded-xl px-4 shadow-drop-3 dark:bg-background dark:shadow-sm">
         <Image
           src="/assets/icons/search.svg"
           alt="search"
@@ -69,12 +69,12 @@ const Search = () => {
         <Input
           value={query}
           placeholder="Search..."
-          className="body-2 shad-no-focus  placeholder:body-1 w-full border-none p-0 shadow-none placeholder:text-light-200"
+          className="body-2 shad-no-focus placeholder:body-1 w-full border-none p-0 shadow-none placeholder:text-light-200 dark:placeholder:text-primary/80"
           onChange={(e) => setQuery(e.target.value)}
         />
 
         {open && (
-          <ul className="absolute left-0 top-16 z-50 flex w-full flex-col gap-3 rounded-xl bg-white p-4">
+          <ul className="absolute left-0 top-14 z-50 flex w-full flex-col gap-3 rounded-xl bg-background p-4 border-2">
             {results.length > 0 ? (
               results.map((file) => (
                 <li
@@ -90,7 +90,7 @@ const Search = () => {
                       className="size-9 min-w-9"
                       imageClassName="size-6"
                     />
-                    <p className="subtitle-2 line-clamp-1 text-light-100">
+                    <p className="subtitle-2 line-clamp-1 text-light-100 dark:text-primary">
                       {file.name}
                     </p>
                   </div>
